@@ -1,0 +1,1202 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Catálogo de Cursos — Mundy Educação</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --orange: #E87722;
+    --orange-dark: #c5621a;
+    --dark: #0F0D0B;
+    --card-bg: #1A1714;
+    --card-border: rgba(255,255,255,0.07);
+    --text: #F0EDE8;
+    --muted: #9B9189;
+    --tag-tech: #3B82F6;
+    --tag-design: #8B5CF6;
+    --tag-mkt: #EF4444;
+    --tag-ia: #06B6D4;
+    --tag-biz: #10B981;
+    --tag-edu: #F59E0B;
+    --tag-saude: #EC4899;
+  }
+
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: var(--dark);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(160deg, #1A1410 0%, #0F0D0B 60%);
+    padding: 0 0 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 320px; height: 320px;
+    background: radial-gradient(circle, rgba(232,119,34,0.18) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -40px; left: -40px;
+    width: 240px; height: 240px;
+    background: radial-gradient(circle, rgba(232,119,34,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  /* Rainbow top bar */
+  .top-bar {
+    height: 4px;
+    background: linear-gradient(90deg, #E87722 0%, #F5C842 20%, #4CAF50 40%, #2196F3 60%, #9C27B0 80%, #E87722 100%);
+  }
+
+  .hero-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 28px 24px 0;
+  }
+
+  .back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    padding: 8px 14px;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 20px;
+    background: rgba(255,255,255,0.04);
+    transition: all 0.2s;
+    cursor: pointer;
+    margin-bottom: 32px;
+  }
+  .back-btn:hover { color: var(--orange); border-color: var(--orange); background: rgba(232,119,34,0.08); }
+  .back-btn svg { width: 14px; height: 14px; }
+
+  .hero-content {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    flex-wrap: wrap;
+  }
+  .hero-logo {
+    height: 64px;
+    width: auto;
+    filter: drop-shadow(0 4px 16px rgba(232,119,34,0.3));
+    animation: logoIn 0.6s ease-out both;
+  }
+  @keyframes logoIn { from { opacity:0; transform:scale(0.85); } to { opacity:1; transform:scale(1); } }
+
+  .hero-text h1 {
+    font-size: clamp(22px, 4vw, 36px);
+    font-weight: 800;
+    line-height: 1.15;
+    animation: slideUp 0.5s 0.1s ease-out both;
+  }
+  .hero-text h1 span { color: var(--orange); }
+  .hero-text p {
+    font-size: 14px;
+    color: var(--muted);
+    margin-top: 6px;
+    animation: slideUp 0.5s 0.2s ease-out both;
+  }
+  @keyframes slideUp { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
+
+  .hero-stats {
+    display: flex;
+    gap: 24px;
+    margin-top: 28px;
+    flex-wrap: wrap;
+    animation: slideUp 0.5s 0.3s ease-out both;
+  }
+  .stat {
+    text-align: center;
+    padding: 12px 20px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+  }
+  .stat-num { font-size: 22px; font-weight: 800; color: var(--orange); }
+  .stat-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; }
+
+  /* FILTERS */
+  .filters-wrap {
+    background: rgba(255,255,255,0.02);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(12px);
+  }
+  .filters {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 16px;
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+  .filters::-webkit-scrollbar { display: none; }
+
+  .filter-btn {
+    flex-shrink: 0;
+    padding: 7px 16px;
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.12);
+    background: transparent;
+    color: var(--muted);
+    font-family: 'Poppins', sans-serif;
+    font-size: 12.5px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .filter-btn:hover { color: var(--text); border-color: rgba(255,255,255,0.25); }
+  .filter-btn.active { background: var(--orange); border-color: var(--orange); color: #fff; font-weight: 600; }
+
+  /* GRID */
+  .catalog {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 36px 20px 60px;
+  }
+
+  .category-section { margin-bottom: 48px; }
+  .category-section:last-child { margin-bottom: 0; }
+
+  .category-heading {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  .category-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .category-heading h2 {
+    font-size: 15px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--muted);
+  }
+  .category-heading .count {
+    font-size: 12px;
+    color: var(--muted);
+    background: rgba(255,255,255,0.06);
+    padding: 2px 8px;
+    border-radius: 10px;
+  }
+
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 16px;
+  }
+
+  /* CARD */
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+    animation: cardIn 0.4s ease-out both;
+    position: relative;
+    overflow: hidden;
+  }
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(232,119,34,0.3);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  }
+  .card:hover::before { opacity: 1; }
+  @keyframes cardIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+
+  .card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .cat-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 10px;
+    border-radius: 10px;
+    font-size: 10.5px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    opacity: 0.9;
+  }
+
+  .hours-badge {
+    background: rgba(232,119,34,0.12);
+    color: var(--orange);
+    border: 1px solid rgba(232,119,34,0.25);
+    padding: 3px 10px;
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  .card-name {
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.25;
+    color: #F5F2EE;
+  }
+
+  .card-modules {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+  .module-tag {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.08);
+    color: var(--muted);
+    font-size: 10.5px;
+    padding: 3px 8px;
+    border-radius: 6px;
+    font-weight: 400;
+  }
+
+  .card-salary {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    background: rgba(232,119,34,0.06);
+    border: 1px solid rgba(232,119,34,0.12);
+    border-radius: 10px;
+  }
+  .salary-icon { font-size: 14px; }
+  .salary-text { font-size: 12px; color: var(--muted); }
+  .salary-value { font-size: 13px; font-weight: 700; color: #D4AF37; }
+
+  .saiba-btn {
+    margin-top: auto;
+    width: 100%;
+    padding: 13px 20px;
+    background: linear-gradient(135deg, var(--orange), var(--orange-dark));
+    border: none;
+    border-radius: 12px;
+    color: #fff;
+    font-family: 'Poppins', sans-serif;
+    font-size: 13.5px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+  .saiba-btn:hover {
+    background: linear-gradient(135deg, #f08030, var(--orange));
+    box-shadow: 0 4px 20px rgba(232,119,34,0.4);
+    transform: translateY(-1px);
+  }
+  .saiba-btn:active { transform: translateY(0); }
+  .saiba-btn svg { width: 16px; height: 16px; }
+
+  /* FOOTER */
+  .footer {
+    text-align: center;
+    padding: 32px 20px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    color: var(--muted);
+    font-size: 12px;
+  }
+  .footer a { color: var(--orange); text-decoration: none; }
+
+  /* No results */
+  .no-results {
+    display: none;
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--muted);
+  }
+  .no-results.show { display: block; }
+
+  @media (max-width: 600px) {
+    .hero-content { gap: 16px; }
+    .hero-logo { height: 48px; }
+    .cards-grid { grid-template-columns: 1fr; }
+    .hero-stats { gap: 12px; }
+    .stat { padding: 10px 14px; }
+  }
+
+  /* -- AMBIENT GLOW LIGHTS -- */
+  body::before {
+    content: '';
+    position: fixed;
+    top: -120px; right: -120px;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(232,119,34,0.18) 0%, transparent 65%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  body::after {
+    content: '';
+    position: fixed;
+    bottom: -120px; left: -100px;
+    width: 440px; height: 440px;
+    background: radial-gradient(circle, rgba(232,119,34,0.10) 0%, transparent 65%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .hero, .filters-wrap, .catalog, .footer { position: relative; z-index: 1; }
+</style>
+</head>
+<body>
+
+<div class="top-bar"></div>
+
+<div class="hero">
+  <div class="hero-inner">
+    <button class="back-btn" onclick="_goHome()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      Voltar
+    </button>
+    <div class="hero-content">
+      <img class="hero-logo" src="" alt="Mundy Educação" id="heroLogo">
+      <div class="hero-text">
+        <h1>Catálogo de <span>Cursos</span></h1>
+        <p>25 pacotes profissionalizantes para transformar sua carreira</p>
+        <div class="hero-stats">
+          <div class="stat"><div class="stat-num">25</div><div class="stat-label">Pacotes</div></div>
+          <div class="stat"><div class="stat-num">7</div><div class="stat-label">Áreas</div></div>
+          <div class="stat"><div class="stat-num">55h+</div><div class="stat-label">Carga horária</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="filters-wrap">
+  <div class="filters" id="filters">
+    <button class="filter-btn active" data-cat="all">Todos os cursos</button>
+    <button class="filter-btn" data-cat="tech">💻 Tecnologia</button>
+    <button class="filter-btn" data-cat="design">🎨 Design & Criação</button>
+    <button class="filter-btn" data-cat="mkt">📣 Marketing & Vendas</button>
+    <button class="filter-btn" data-cat="ia">🤖 IA & Inovação</button>
+    <button class="filter-btn" data-cat="biz">📊 Negócios & Gestão</button>
+    <button class="filter-btn" data-cat="edu">📚 Educação & Idiomas</button>
+    <button class="filter-btn" data-cat="saude">❤️ Saúde</button>
+  </div>
+</div>
+
+<main class="catalog" id="catalog">
+
+  <!-- TECNOLOGIA -->
+  <section class="category-section" data-cat="tech" id="sec-tech">
+    <div class="category-heading">
+      <div class="category-dot" style="background:var(--tag-tech)"></div>
+      <h2>Tecnologia</h2>
+      <span class="count">4 pacotes</span>
+    </div>
+    <div class="cards-grid">
+
+      <div class="card" style="--accent:var(--tag-tech)">
+        <div class="card-top">
+          <span class="cat-badge" style="background:rgba(59,130,246,0.15);color:#60A5FA">💻 Tecnologia</span>
+          <span class="hours-badge">123h</span>
+        </div>
+        <div class="card-name">Operador de Computador</div>
+        <div class="card-modules">
+          <span class="module-tag">Windows 11</span>
+          <span class="module-tag">Word</span>
+          <span class="module-tag">Excel</span>
+          <span class="module-tag">PowerPoint</span>
+          <span class="module-tag">Ambientes Digitais</span>
+        </div>
+        <div class="card-salary">
+          <span class="salary-icon">💼</span>
+          <span class="salary-text">Atuação</span>
+          <span class="salary-value">Auxiliar de Escritório</span>
+        </div>
+        <button class="saiba-btn" onclick="_saiba()">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.993 0C5.372 0 0 5.373 0 12c0 2.117.554 4.103 1.523 5.828L.057 23.885l6.218-1.631A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.62 0 11.993 0zM12 22c-1.85 0-3.587-.5-5.089-1.371l-.361-.214-3.742.981.998-3.648-.235-.374A9.955 9.955 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+          Saiba Mais
+        </button>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <span class="cat-badge" style="background:rgba(59,130,246,0.15);color:#60A5FA">💻 Tecnologia</span>
+          <span class="hours-badge">142h</span>
+        </div>
+        <div class="card-name">Programador Master</div>
+        <div class="card-modules">
+          <span class="module-tag">HTML & CSS</span>
+          <span class="module-tag">WordPress</span>
+          <span class="module-tag">Java</span>
+          <span class="module-tag">Lógica de Prog.</span>
+          <span class="module-tag">PHP</span>
+          <span class="module-tag">Python</span>
+        </div>
+        <div class="card-salary">
+          <span class="salary-icon">💰</span>
+          <span class="salary-text">Média de ganhos</span>
+          <span class="salary-value">R$ 2.500 / mês</span>
+        </div>
+        <button class="saiba-btn" onclick="_saiba()">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.993 0C5.372 0 0 5.373 0 12c0 2.117.554 4.103 1.523 5.828L.057 23.885l6.218-1.631A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.62 0 11.993 0zM12 22c-1.85 0-3.587-.5-5.089-1.371l-.361-.214-3.742.981.998-3.648-.235-.374A9.955 9.955 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+          Saiba Mais
+        </button>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <span class="cat-badge" style="background:rgba(59,130,246,0.15);color:#60A5FA">💻 Tecnologia</span>
+          <span class="hours-badge">106h</span>
+        </div>
+        <div class="card-name">Desenvolvedor Web</div>
+        <div class="card-modules">
+          <span class="module-tag">WordPress</span>
+          <span class="module-tag">HTML & CSS</span>
+          <span class="module-tag">Segurança Digital</span>
+          <span class="module-tag">Illustrator</span>
+          <span class="module-tag">Photoshop</span>
+        </div>
+        <div class="card-salary">
+          <span class="salary-icon">💰</span>
+          <span class="salary-text">Média de ganhos</span>
+          <span class="salary-value">R$ 3.000 / mês</span>
+        </div>
+        <button class="saiba-btn" onclick="_saiba()">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.993 0C5.372 0 0 5.373 0 12c0 2.117.554 4.103 1.523 5.828L.057 23.885l6.218-1.631A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.62 0 11.993 0zM12 22c-1.85 0-3.587-.5-5.089-1.371l-.361-.214-3.742.981.998-3.648-.235-.374A9.955 9.955 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+          Saiba Mais
+        </button>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <span class="cat-badge" style="background:rgba(59,130,246,0.15);color:#60A5FA">💻 Tecnologia</span>
+          <span class="hours-badge">85h</span>
+        </div>
+        <div class="card-name">Games Creator</div>
+        <div class="card-modules">
+          <span class="module-tag">Games 3D Módulo I</span>
+          <span class="module-tag">Games 3D Módulo II</span>
+          <span class="module-tag">Games 3D Módulo III</span>
+          <span class="module-tag">Games Online</span>
+        </div>
+        <div class="card-salary">
+          <span class="salary-icon">💰</span>
+          <span class="salary-text">Média de ganhos</span>
+          <span class="salary-value">R$ 1.500 – R$ 3.000</span>
+        </div>
+        <button class="saiba-btn" onclick="_saiba()">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.993 0C5.372 0 0 5.373 0 12c0 2.117.554 4.103 1.523 5.828L.057 23.885l6.218-1.631A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.62 0 11.993 0zM12 22c-1.85 0-3.587-.5-5.089-1.371l-.361-.214-3.742.981.998-3.648-.235-.374A9.955 9.955 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+          Saiba Mais
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- DESIGN & CRIAÇÃO -->
+  <section class="category-section" data-cat="design" id="sec-design">
+    <div class="category-heading">
+      <div class="category-dot" style="background:var(--tag-design)"></div>
+      <h2>Design & Criação</h2>
+      <span class="count">5 pacotes</span>
+    </div>
+    <div class="cards-grid">
+
+      <div class="card">
+        <div class="card-top">
+          <span class="cat-badge" style="background:rgba(139,92,246,0.15);color:#A78BFA">🎨 Design & Criação</span>
+          <span class="hours-badge">129h</span>
+        </div>
+        <div class="card-name">Projetista Alto Nível</div>
+        <div class="card-modules">
+          <span class="module-tag">3DS Max</span>
+          <span class="module-tag">AutoCAD 2D</span>
+          <span class="module-tag">AutoCAD 3D</span>
+          <span class="module-tag">Sketchup</span>
+          <span class="module-tag">Revit</span>
+        </div>
+        <div class="card-salary">
+          <span class="salary-icon">💰</span>
+          <span class="salary-text">Média de ganhos</span>
+          <span class="salary-value">R$ 3.200 / mês</span>
+        </div>
+        <button class="saiba-btn" onclick="_saiba()">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.993 0C5.372 0 0 5.373 0 12c0 2.117.554 4.103 1.523 5.828L.057 23.885l6.218-1.631A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.62 0 11.993 0zM12 22c-1.85 0-3.587-.5-5.089-1.371l-.361-.214-3.742.981.998-3.648-.235-.374A9.955 9.955 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+          Saiba Mais
+        </button>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <span class="cat-badge" style="background:rgba(139,92,246,0.15);color:#A78BFA">🎨 Design & Criação</span>
+          <span class="hours-badge">138h</span>
+        </div>
+        <div class="card-name">Video Creator Profissional</div>
+        <div class="card-modules">
+          <span class="module-tag">Premiere</span>
+          <span class="module-tag">Photoshop</span>
+          <span class="module-tag">After Effects</span>
+          <span class="module-tag">Inglês</span>
+        </div>
+        <div class="card-salary">
+          <span class="salary-icon">💰</span>
+          <span class="salary-text">Média de ganhos</span>
+          <span class="salary-value">R$ 1.500 – R$ 2.000</span>
+        </div>
+        <button class="saiba-btn" onclick="_saiba()">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.993 0C5.372 0 0 5.373 0 12c0 2.117.554 4.103 1.523 5.828L.057 23.885l6.218-1.631A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.62 0 11.993 0zM12 22c-1.85 0-3.587-.5-5.089-1.371l-.361-.214-3.742.981.998-3.648-.235-.374A9.955 9.955 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+          Saiba Mais
+        </button>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <span class="cat-badge" style="background:rgba(139,92,246,0.15);color:#A78BFA">🎨 Design & Criação</span>
+          <span class="hours-badge">150h</span>
+        </div>
+        <div class="card-name">Youtuber</div>
+        <div class="card-modules">
+          <span class="module-tag">Youtuber</span>
+          <span class="module-tag">Premiere</span>
+          <span class="module-tag">Photoshop</span>
+          <span class="module-tag">Canva</span>
+          <span class="module-tag">Inglês</span>
+        </div>
+        <div class="card-salary">
+          <span class="salary-icon">💰</span>
+          <span class="salary-text">Média de ganhos</span>
+          <span class="salary-value">R$ 20.000+</span>
+        </div>
+        <button class="saiba-btn" onclick="_saiba()">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.993 0C5.372 0 0 5.373 0 12c0 2.117.554 4.103 1.523 5.828L.057 23.885l6.218-1.631A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.62 0 11.993 0zM12 22c-1.85 0-3.587-.5-5.089-1.371l-.361-.214-3.742.981.998-3.648-.235-.374A9.955 9.955 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+          Saiba Mais
+        </button>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <span class="cat-badge" style="background:rgba(139,92,246,0.15);color:#A78BFA">🎨 Design & Criação</span>
+          <span class="hours-badge">135h</span>
+        </div>
+        <div class="card-name">Operador de Drone</div>
+        <div class="card-modules">
+          <span class="module-tag">Drone</span>
+          <span class="module-tag">Photoshop</span>
+          <span class="module-tag">Premiere</span>
+          <span class="module-tag">Inglês</span>
+        </div>
+        <div class="card-salary">
+          <span class="salary-icon">💰</span>
+          <span class="salary-text">Média de ganhos</span>
+          <span class="salary-value">R$ 2.500 / mês</span>
+        </div>
+        <button class="saiba-btn" onclick="_saiba()">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.993 0C5.372 0 0 5.373 0 12c0 2.117.554 4.103 1.523 5.828L.057 23.885l6.218-1.631A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.62 0 11.993 0zM12 22c-1.85 0-3.587-.5-5.089-1.371l-.361-.214-3.742.981.998-3.648-.235-.374A9.955 9.955 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+          Saiba Mais
+        </button>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <span class="cat-badge" style="background:rgba(139,92,246,0.15);color:#A78BFA">🎨 Design & Criação</span>
+          <span class="hours-badge">96h</span>
+        </div>
+        <div class="card-name">Designer Gráfico</div>
+        <div class="card-modules">
+          <span class="module-tag">Illustrator</span>
+          <span class="module-tag">Photoshop</span>
+          <span class="module-tag">CorelDRAW</span>
+          <span class="module-tag">InDesign</span>
+        </div>
+        <div class="card-salary">
+          <span class="salary-icon">💰</span>
+          <span class="salary-text">Média de ganhos</span>
+          <span class="salary-value">R$ 2.500 / mês</span>
+        </div>
+        <button class="saiba-btn" onclick="_saiba()">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.993 0C5.372 0 0 5.373 0 12c0 2.117.554 4.103 1.523 5.828L.057 23.885l6.218-1.631A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.62 0 11.993 0zM12 22c-1.85 0-3.587-.5-5.089-1.371l-.361-.214-3.742.981.998-3.648-.235-.374A9.955 9.955 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+          Saiba Mais
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- MARKETING & VENDAS -->
+  <section class="category-section" data-cat="mkt" id="sec-mkt">
+    <div class="category-heading">
+      <div class="category-dot" style="background:var(--tag-mkt)"></div>
+      <h2>Marketing & Vendas</h2>
+      <span class="count">3 pacotes</span>
+    </div>
+    <div class="cards-grid">
+
+      <div class="card">
+        <div class="card-top">
+          <span class="cat-badge" style="background:rgba(239,68,68,0.15);color:#F87171">📣 Marketing & Vendas</span>
+          <span class="hours-badge">94h</span>
+        </div>
+        <div class="card-name">Social Media Pro</div>
+        <div class="card-modules">
+          <span class="module-tag">Marketing Digital</span>
+          <span class="module-tag">Meta Business</span>
+          <span class="module-tag">WhatsApp Business</span>
+          <span class="module-tag">Canva</span>
+          <span class="module-tag">Youtuber</span>
+          <span class="module-tag">CapCut</span>
+        </div>
+        <div class="card-salary">
+          <span class="salary-icon">💰</span>
+          <span class="salary-text">Média de ganhos</span>
+          <span class="salary-value">R$ 2.500 – R$ 6.000</span>
+        </div>
+        <button class="saiba-btn" onclick="_saiba()">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.993 0C5.372 0 0 5.373 0 12c0 2.117.554 4.103 1.523 5.828L.057 23.885l6.218-1.631A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.62 0 11.993 0zM12 22c-1.85 0-3.587-.5-5.089-1.371l-.361-.214-3.742.981.998-3.648-.235-.374A9.955 9.955 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+          Saiba Mais
+        </button>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <span class="cat-badge" style="background:rgba(239,68,68,0.15);color:#F87171">📣 Marketing & Vendas</span>
+          <span class="hours-badge">93h</span>
+        </div>
+        <div class="card-name">Vendedor Digital</div>
+        <div class="card-modules">
+          <span class="module-tag">Marketing Digital</span>
+          <span class="module-tag">Técnicas de Vendas</span>
+          <span class="module-tag">Telemarketing</span>
+          <span class="module-tag">Mkt Pessoal</span>
+          <span class="module-tag">WhatsApp Business</span>
+          <span class="module-tag">Meta Business</span>
+          <span class="module-tag">Canva</span>
+        </div>
+        <div class="card-salary">
+          <span class="salary-icon">💼</span>
+          <span class="salary-text">Potencial</span>
+          <span class="salary-value">Variável por comissão</span>
+        </div>
+        <button class="saiba-btn" onclick="_saiba()">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.993 0C5.372 0 0 5.373 0 12c0 2.117.554 4.103 1.523 5.828L.057 23.885l6.218-1.631A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.62 0 11.993 0zM12 22c-1.85 0-3.587-.5-5.089-1.371l-.361-.214-3.742.981.998-3.648-.235-.374A9.955 9.955 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+          Saiba Mais
+        </button>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <span class="cat-badge" style="background:rgba(239,68,68,0.15);color:#F87171">📣 Marketing & Vendas</span>
+          <span class="hours-badge">94h</span>
+        </div>
+        <div class="card-name">Gestor de Tráfego Pago</div>
+        <div class="card-modules">
+          <span class="module-tag">Meta Business</span>
+          <span class="module-tag">Google Ads</span>
+          <span class="module-tag">Canva</span>
+          <span class="module-tag">Youtuber</span>
+          <span class="module-tag">ChatGPT</span>
+          <span class="module-tag">Marketing Digital V.2</span>
+        </div>
+        <div class="card-salary">
+          <span class="salary-icon">💰</span>
+          <span class="salary-text">Média de ganhos</span>
+          <span class="salary-value">R$ 2.500 – R$ 10.000+</span>
+        </div>
+        <button class="saiba-btn" onclick="_saiba()">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.993 0C5.372 0 0 5.373 0 12c0 2.117.554 4.103 1.523 5.828L.057 23.885l6.218-1.631A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.62 0 11.993 0zM12 22c-1.85 0-3.587-.5-5.089-1.371l-.361-.214-3.742.981.998-3.648-.235-.374A9.955 9.955 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+          Saiba Mais
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- IA & INOVAÇÃO -->
+  <section class="category-section" data-cat="ia" id="sec-ia">
+    <div class="category-heading">
+      <div class="category-dot" style="background:var(--tag-ia)"></div>
+      <h2>IA & Inovação</h2>
+      <span class="count">1 pacote</span>
+    </div>
+    <div class="cards-grid">
+
+      <div class="card">
+        <div class="card-top">
+          <span class="cat-badge" style="background:rgba(6,182,212,0.15);color:#22D3EE">🤖 IA & Inovação</span>
+          <span class="hours-badge">63h</span>
+        </div>
+        <div class="card-name">Especialista em IA</div>
+        <div class="card-modules">
+          <span class="module-tag">Inteligência Artificial</span>
+          <span class="module-tag">ChatGPT</span>
+          <span class="module-tag">Lovable AI</span>
+          <span class="module-tag">Fundamentos do n8n</span>
+          <span class="module-tag">Empreendendo com IA</span>
+        </div>
+        <div class="card-salary">
+          <span class="salary-icon">💰</span>
+          <span class="salary-text">Potencial de ganhos</span>
+          <span class="salary-value">R$ 2.500+ / mês</span>
+        </div>
+        <button class="saiba-btn" onclick="_saiba()">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.993 0C5.372 0 0 5.373 0 12c0 2.117.554 4.103 1.523 5.828L.057 23.885l6.218-1.631A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.62 0 11.993 0zM12 22c-1.85 0-3.587-.5-5.089-1.371l-.361-.214-3.742.981.998-3.648-.235-.374A9.955 9.955 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+          Saiba Mais
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- NEGÓCIOS & GESTÃO -->
+  <section class="category-section" data-cat="biz" id="sec-biz">
+    <div class="category-heading">
+      <div class="category-dot" style="background:var(--tag-biz)"></div>
+      <h2>Negócios & Gestão</h2>
+      <span class="count">6 pacotes</span>
+    </div>
+    <div class="cards-grid">
+
+      <div class="card">
+        <div class="card-top">
+          <span class="cat-badge" style="background:rgba(16,185,129,0.15);color:#34D399">📊 Negócios & Gestão</span>
+          <span class="hours-badge">95h</span>
+        </div>
+        <div class="card-name">Líder do Futuro</div>
+        <div class="card-modules">
+          <span class="module-tag">Liderança Estratégica</span>
+          <span class="module-tag">Empreendedorismo</span>
+          <span class="module-tag">Excel Fundamental</span>
+          <span class="module-tag">Excel Avançado</span>
+          <span class="module-tag">Excel Dashboard</span>
+          <span class="module-tag">Gestão Administrativa</span>
+          <span class="module-tag">Gestão RH</span>
+        </div>
+        <div class="card-salary">
+          <span class="salary-icon">💰</span>
+          <span class="salary-text">Média de ganhos</span>
+          <span class="salary-value">R$ 5.000 / mês</span>
+        </div>
+        <button class="saiba-btn" onclick="_saiba()">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.993 0C5.372 0 0 5.373 0 12c0 2.117.554 4.103 1.523 5.828L.057 23.885l6.218-1.631A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.62 0 11.993 0zM12 22c-1.85 0-3.587-.5-5.089-1.371l-.361-.214-3.742.981.998-3.648-.235-.374A9.955 9.955 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+          Saiba Mais
+        </button>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <span class="cat-badge" style="background:rgba(16,185,129,0.15);color:#34D399">📊 Negócios & Gestão</span>
+          <span class="hours-badge">70h</span>
+        </div>
+        <div class="card-name">Mestre em Excel</div>
+        <div class="card-modules">
+          <span class="module-tag">Excel Fundamental</span>
+          <span class="module-tag">Excel Avançado</span>
+          <span class="module-tag">Excel Dashboard</span>
+          <span class="module-tag">Power BI</span>
+        </div>
+        <div class="card-salary">
+          <span class="salary-icon">💰</span>
+          <span class="salary-text">Média de ganhos</span>
+          <span class="salary-value">R$ 2.000 / mês</span>
+        </div>
+        <button class="saiba-btn" onclick="_saiba()">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.993 0C5.372 0 0 5.373 0 12c0 2.117.554 4.103 1.523 5.828L.057 23.885l6.218-1.631A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.62 0 11.993 0zM12 22c-1.85 0-3.587-.5-5.089-1.371l-.361-.214-3.742.981.998-3.648-.235-.374A9.955 9.955 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+          Saiba Mais
+        </button>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <span class="cat-badge" style="background:rgba(16,185,129,0.15);color:#34D399">📊 Negócios & Gestão</span>
+          <span class="hours-badge">116h</span>
+        </div>
+        <div class="card-name">Auxiliar Contábil</div>
+        <div class="card-modules">
+          <span class="module-tag">Assistente Contábil</span>
+          <span class="module-tag">Excel Fundamental</span>
+          <span class="module-tag">Crédito e Cobrança</span>
+          <span class="module-tag">Excel Avançado</span>
+          <span class="module-tag">Power BI</span>
+          <span class="module-tag">Matemática Financeira HP12C</span>
+        </div>
+        <div class="card-salary">
+          <span class="salary-icon">💰</span>
+          <span class="salary-text">Média de ganhos</span>
+          <span class="salary-value">R$ 2.000 / mês</span>
+        </div>
+        <button class="saiba-btn" onclick="_saiba()">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.993 0C5.372 0 0 5.373 0 12c0 2.117.554 4.103 1.523 5.828L.057 23.885l6.218-1.631A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.62 0 11.993 0zM12 22c-1.85 0-3.587-.5-5.089-1.371l-.361-.214-3.742.981.998-3.648-.235-.374A9.955 9.955 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+          Saiba Mais
+        </button>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <span class="cat-badge" style="background:rgba(16,185,129,0.15);color:#34D399">📊 Negócios & Gestão</span>
+          <span class="hours-badge">60h</span>
+        </div>
+        <div class="card-name">Administração de Pessoal</div>
+        <div class="card-modules">
+          <span class="module-tag">Gestão Administrativa</span>
+          <span class="module-tag">Gestão de RH V.2</span>
+          <span class="module-tag">Departamento Pessoal V4</span>
+          <span class="module-tag">Crédito, Cobrança e Atendimento</span>
+          <span class="module-tag">Empreendedorismo</span>
+          <span class="module-tag">Liderança Estratégica</span>
+        </div>
+        <div class="card-salary">
+          <span class="salary-icon">💰</span>
+          <span class="salary-text">Média de ganhos</span>
+          <span class="salary-value">R$ 3.000 – R$ 6.000</span>
+        </div>
+        <button class="saiba-btn" onclick="_saiba()">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.993 0C5.372 0 0 5.373 0 12c0 2.117.554 4.103 1.523 5.828L.057 23.885l6.218-1.631A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.62 0 11.993 0zM12 22c-1.85 0-3.587-.5-5.089-1.371l-.361-.214-3.742.981.998-3.648-.235-.374A9.955 9.955 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+          Saiba Mais
+        </button>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <span class="cat-badge" style="background:rgba(16,185,129,0.15);color:#34D399">📊 Negócios & Gestão</span>
+          <span class="hours-badge">100h</span>
+        </div>
+        <div class="card-name">Auxiliar de Escritório</div>
+        <div class="card-modules">
+          <span class="module-tag">Administrativo Informatizado V4</span>
+          <span class="module-tag">Word</span>
+          <span class="module-tag">Excel Fundamental V2</span>
+          <span class="module-tag">Segurança Digital</span>
+        </div>
+        <div class="card-salary">
+          <span class="salary-icon">💰</span>
+          <span class="salary-text">Média de ganhos</span>
+          <span class="salary-value">R$ 1.600 / mês</span>
+        </div>
+        <button class="saiba-btn" onclick="_saiba()">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.993 0C5.372 0 0 5.373 0 12c0 2.117.554 4.103 1.523 5.828L.057 23.885l6.218-1.631A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.62 0 11.993 0zM12 22c-1.85 0-3.587-.5-5.089-1.371l-.361-.214-3.742.981.998-3.648-.235-.374A9.955 9.955 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+          Saiba Mais
+        </button>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <span class="cat-badge" style="background:rgba(16,185,129,0.15);color:#34D399">📊 Negócios & Gestão</span>
+          <span class="hours-badge">126h</span>
+        </div>
+        <div class="card-name">Operador de Logística</div>
+        <div class="card-modules">
+          <span class="module-tag">Logística</span>
+          <span class="module-tag">Windows 11</span>
+          <span class="module-tag">Excel Fundamental V2</span>
+          <span class="module-tag">Excel Avançado</span>
+          <span class="module-tag">Excel Dashboard</span>
+          <span class="module-tag">Liderança Estratégica</span>
+          <span class="module-tag">Empreendedorismo</span>
+        </div>
+        <div class="card-salary">
+          <span class="salary-icon">💰</span>
+          <span class="salary-text">Média de ganhos</span>
+          <span class="salary-value">R$ 2.000 / mês</span>
+        </div>
+        <button class="saiba-btn" onclick="_saiba()">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.993 0C5.372 0 0 5.373 0 12c0 2.117.554 4.103 1.523 5.828L.057 23.885l6.218-1.631A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.62 0 11.993 0zM12 22c-1.85 0-3.587-.5-5.089-1.371l-.361-.214-3.742.981.998-3.648-.235-.374A9.955 9.955 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+          Saiba Mais
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- EDUCAÇÃO & IDIOMAS -->
+  <section class="category-section" data-cat="edu" id="sec-edu">
+    <div class="category-heading">
+      <div class="category-dot" style="background:var(--tag-edu)"></div>
+      <h2>Educação & Idiomas</h2>
+      <span class="count">4 pacotes</span>
+    </div>
+    <div class="cards-grid">
+
+      <div class="card">
+        <div class="card-top">
+          <span class="cat-badge" style="background:rgba(245,158,11,0.15);color:#FCD34D">📚 Educação & Idiomas</span>
+          <span class="hours-badge">120h</span>
+        </div>
+        <div class="card-name">Inglês Fluente</div>
+        <div class="card-modules">
+          <span class="module-tag">Inglês Básico</span>
+          <span class="module-tag">Inglês Intermediário</span>
+          <span class="module-tag">Inglês Avançado</span>
+        </div>
+        <div class="card-salary">
+          <span class="salary-icon">🌎</span>
+          <span class="salary-text">Diferencial</span>
+          <span class="salary-value">Fluência completa</span>
+        </div>
+        <button class="saiba-btn" onclick="_saiba()">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.993 0C5.372 0 0 5.373 0 12c0 2.117.554 4.103 1.523 5.828L.057 23.885l6.218-1.631A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.62 0 11.993 0zM12 22c-1.85 0-3.587-.5-5.089-1.371l-.361-.214-3.742.981.998-3.648-.235-.374A9.955 9.955 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+          Saiba Mais
+        </button>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <span class="cat-badge" style="background:rgba(245,158,11,0.15);color:#FCD34D">📚 Educação & Idiomas</span>
+          <span class="hours-badge">81h</span>
+        </div>
+        <div class="card-name">Professor do Futuro</div>
+        <div class="card-modules">
+          <span class="module-tag">Google for Education Básico</span>
+          <span class="module-tag">Google for Education Avançado</span>
+          <span class="module-tag">Windows 11</span>
+          <span class="module-tag">Ambientes Digitais</span>
+          <span class="module-tag">Segurança Digital</span>
+          <span class="module-tag">Aplicativos de Chamada</span>
+        </div>
+        <div class="card-salary">
+          <span class="salary-icon">💰</span>
+          <span class="salary-text">Média de ganhos</span>
+          <span class="salary-value">R$ 4.000 / mês</span>
+        </div>
+        <button class="saiba-btn" onclick="_saiba()">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.993 0C5.372 0 0 5.373 0 12c0 2.117.554 4.103 1.523 5.828L.057 23.885l6.218-1.631A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.62 0 11.993 0zM12 22c-1.85 0-3.587-.5-5.089-1.371l-.361-.214-3.742.981.998-3.648-.235-.374A9.955 9.955 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+          Saiba Mais
+        </button>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <span class="cat-badge" style="background:rgba(245,158,11,0.15);color:#FCD34D">📚 Educação & Idiomas</span>
+          <span class="hours-badge">150h</span>
+        </div>
+        <div class="card-name">Crianças do Futuro</div>
+        <div class="card-modules">
+          <span class="module-tag">Games Kids</span>
+          <span class="module-tag">Windows 11 Kids</span>
+          <span class="module-tag">Word Kids</span>
+          <span class="module-tag">PowerPoint Kids</span>
+          <span class="module-tag">Ambientes Digitais Kids</span>
+          <span class="module-tag">Inglês Kids</span>
+        </div>
+        <div class="card-salary">
+          <span class="salary-icon">🎯</span>
+          <span class="salary-text">Público</span>
+          <span class="salary-value">Crianças e Jovens</span>
+        </div>
+        <button class="saiba-btn" onclick="_saiba()">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.993 0C5.372 0 0 5.373 0 12c0 2.117.554 4.103 1.523 5.828L.057 23.885l6.218-1.631A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.62 0 11.993 0zM12 22c-1.85 0-3.587-.5-5.089-1.371l-.361-.214-3.742.981.998-3.648-.235-.374A9.955 9.955 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+          Saiba Mais
+        </button>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <span class="cat-badge" style="background:rgba(245,158,11,0.15);color:#FCD34D">📚 Educação & Idiomas</span>
+          <span class="hours-badge">55h</span>
+        </div>
+        <div class="card-name">Melhor Idade</div>
+        <div class="card-modules">
+          <span class="module-tag">Melhor Idade V2</span>
+          <span class="module-tag">Ambientes Digitais</span>
+          <span class="module-tag">Segurança Digital</span>
+        </div>
+        <div class="card-salary">
+          <span class="salary-icon">🎯</span>
+          <span class="salary-text">Público</span>
+          <span class="salary-value">Adultos 50+</span>
+        </div>
+        <button class="saiba-btn" onclick="_saiba()">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.993 0C5.372 0 0 5.373 0 12c0 2.117.554 4.103 1.523 5.828L.057 23.885l6.218-1.631A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.62 0 11.993 0zM12 22c-1.85 0-3.587-.5-5.089-1.371l-.361-.214-3.742.981.998-3.648-.235-.374A9.955 9.955 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+          Saiba Mais
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SAÚDE -->
+  <section class="category-section" data-cat="saude" id="sec-saude">
+    <div class="category-heading">
+      <div class="category-dot" style="background:var(--tag-saude)"></div>
+      <h2>Saúde</h2>
+      <span class="count">2 pacotes</span>
+    </div>
+    <div class="cards-grid">
+
+      <div class="card">
+        <div class="card-top">
+          <span class="cat-badge" style="background:rgba(236,72,153,0.15);color:#F472B6">❤️ Saúde</span>
+          <span class="hours-badge">78h</span>
+        </div>
+        <div class="card-name">Segurança da Saúde</div>
+        <div class="card-modules">
+          <span class="module-tag">Biossegurança</span>
+          <span class="module-tag">Guia de Prevenção Covid-19</span>
+          <span class="module-tag">Atendente de Farmácia V2</span>
+          <span class="module-tag">Windows 11</span>
+          <span class="module-tag">Word</span>
+        </div>
+        <div class="card-salary">
+          <span class="salary-icon">💰</span>
+          <span class="salary-text">Média de ganhos</span>
+          <span class="salary-value">R$ 2.500 / mês</span>
+        </div>
+        <button class="saiba-btn" onclick="_saiba()">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.993 0C5.372 0 0 5.373 0 12c0 2.117.554 4.103 1.523 5.828L.057 23.885l6.218-1.631A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.62 0 11.993 0zM12 22c-1.85 0-3.587-.5-5.089-1.371l-.361-.214-3.742.981.998-3.648-.235-.374A9.955 9.955 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+          Saiba Mais
+        </button>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <span class="cat-badge" style="background:rgba(236,72,153,0.15);color:#F472B6">❤️ Saúde</span>
+          <span class="hours-badge">54h</span>
+        </div>
+        <div class="card-name">Cuidador de Idosos</div>
+        <div class="card-modules">
+          <span class="module-tag">Cuidador de Idosos</span>
+          <span class="module-tag">Guia de Prevenção Covid-19</span>
+          <span class="module-tag">Aplicativos de Chamada</span>
+          <span class="module-tag">Atendente de Farmácia V2</span>
+          <span class="module-tag">Biossegurança</span>
+        </div>
+        <div class="card-salary">
+          <span class="salary-icon">💰</span>
+          <span class="salary-text">Média de ganhos</span>
+          <span class="salary-value">R$ 1.500 / mês + extras</span>
+        </div>
+        <button class="saiba-btn" onclick="_saiba()">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.993 0C5.372 0 0 5.373 0 12c0 2.117.554 4.103 1.523 5.828L.057 23.885l6.218-1.631A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.62 0 11.993 0zM12 22c-1.85 0-3.587-.5-5.089-1.371l-.361-.214-3.742.981.998-3.648-.235-.374A9.955 9.955 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+          Saiba Mais
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="no-results" id="noResults">
+    <p style="font-size:32px;margin-bottom:12px">🔍</p>
+    <p style="font-size:16px;font-weight:600;margin-bottom:8px">Nenhum pacote encontrado</p>
+  </div>
+
+</main>
+
+<footer class="footer">
+  <p>© 2025 <strong style="color:var(--orange)">Mundy Educação</strong> Novo Horizonte &nbsp;·&nbsp; Transformando carreiras</p>
+</footer>
+
+<script>
+// ── Security: XOR-obfuscated WhatsApp Comercial ──
+var _K = [77,110,100,121,69,100,117,57];
+var _T = {
+  wa_com: [37,26,16,9,54,94,90,22,58,15,74,21,44,10,30,22,32,4,10,28,124,13]
+};
+function _d(arr) {
+  return arr.map(function(b,i){ return String.fromCharCode(b ^ _K[i%_K.length]); }).join('');
+}
+function _saiba() {
+  var url = _d(_T.wa_com);
+  var a = document.createElement('a');
+  a.href = url; a.target = '_blank'; a.rel = 'noopener noreferrer';
+  a.style.display = 'none';
+  document.body.appendChild(a); a.click();
+  setTimeout(function(){ document.body.removeChild(a); url = null; }, 100);
+}
+function _goHome() {
+  var a = document.createElement('a');
+  a.href = '../index.html';
+  a.style.display = 'none';
+  document.body.appendChild(a); a.click();
+  setTimeout(function(){ document.body.removeChild(a); }, 100);
+}
+
+// ── Logo: inject from parent page storage or inline ──
+(function() {
+  var logo = document.getElementById('heroLogo');
+  logo.src = 'data:image/png;base64,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';
+})();
+
+// ── Category filter ──
+var filterBtns = document.querySelectorAll('.filter-btn');
+var sections = document.querySelectorAll('.category-section');
+
+filterBtns.forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    var cat = this.getAttribute('data-cat');
+    filterBtns.forEach(function(b){ b.classList.remove('active'); });
+    this.classList.add('active');
+    var anyVisible = false;
+    sections.forEach(function(sec) {
+      if (cat === 'all' || sec.getAttribute('data-cat') === cat) {
+        sec.style.display = '';
+        anyVisible = true;
+      } else {
+        sec.style.display = 'none';
+      }
+    });
+    document.getElementById('noResults').classList.toggle('show', !anyVisible);
+  });
+});
+
+// ── Staggered card animation on scroll ──
+if ('IntersectionObserver' in window) {
+  var cards = document.querySelectorAll('.card');
+  var obs = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting) {
+        e.target.style.opacity = '1';
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  cards.forEach(function(c, i) {
+    c.style.opacity = '0';
+    c.style.animationDelay = (i % 4 * 60) + 'ms';
+    obs.observe(c);
+  });
+}
+</script>
+</body>
+</html>

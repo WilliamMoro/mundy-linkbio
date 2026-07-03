@@ -1,0 +1,18 @@
+# Sistema
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Temporários
+*.tmp
+*.bak
+*.log
+
+# Node (caso use no futuro)
+node_modules/
+.env
+.env.local
+
+# IDE
+.vscode/
+.idea/
