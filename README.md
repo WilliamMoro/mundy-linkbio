@@ -2,26 +2,10 @@
 
 <div align="center">
 
-```
-  ╭──────────────────────────────────────╮
-  │                                      │
-  │        ◉  Mundy Educação             │
-  │           Novo Horizonte             │
-  │                                      │
-  │     CURSOS E TREINAMENTOS            │
-  │                                      │
-  │  [ Ver Catálogo ]  [ Ver PDF ]       │
-  │  ─────────────────────────────       │
-  │  WhatsApp · Secretaria               │
-  │  WhatsApp · Sala de Aula             │
-  │  WhatsApp · Comercial                │
-  │  ─────────────────────────────       │
-  │  Instagram          Facebook         │
-  │                                      │
-  ╰──────────────────────────────────────╯
-```
+![Preview do Catálogo](./assets/preview.png)
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/placeholder/deploy-status)](https://mundy-educacao.netlify.app)
+<br>
+
 ![HTML](https://img.shields.io/badge/HTML-puro-E87722?style=flat-square)
 ![CSS](https://img.shields.io/badge/CSS-vanilla-1A1410?style=flat-square)
 ![JS](https://img.shields.io/badge/JS-sem_framework-F5C518?style=flat-square)
@@ -69,52 +53,6 @@ wa_com: [37,26,16,9,54,94,90,22,58,15,74,21,44,10,30,22,32,4,10,28,124,13]
 function _d(arr) {
   return arr.map((b, i) => String.fromCharCode(b ^ _K[i % _K.length])).join('');
 }
-```
-
----
-
-## Estrutura
-
-```
-LinkBio/
-├── index.html              # bio link principal
-├── .gitignore
-├── README.md
-├── CatalogoMundy/
-│   └── index.html          # catálogo completo dos cursos
-└── assets/
-    ├── Catalogo_Final.pdf  # PDF do catálogo para download
-    └── logo.png            # logo original (backup — já embutida em base64 no HTML)
-```
-
-A logo está embutida em base64 diretamente no HTML, o que significa que o site funciona como um arquivo único — sem dependência de caminhos de imagem que podem quebrar dependendo de onde o arquivo é aberto.
-
----
-
-## Rodando localmente
-
-Não precisa de servidor, build ou instalação. Só abrir o arquivo:
-
-```bash
-# clona o repositório
-git clone https://github.com/WilliamMoro/mundy-linkbio.git
-
-# abre direto no navegador
-start LinkBio/index.html   # Windows
-open LinkBio/index.html    # Mac
-```
-
----
-
-## Deploy
-
-O site está hospedado no **Netlify** com deploy automático via GitHub. Qualquer push na branch `main` atualiza o site em produção em menos de 30 segundos.
-
-```bash
-# para atualizar o site em produção
-git add .
-git commit -m "descrição da mudança"
-git push
 ```
 
 ---
