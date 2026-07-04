@@ -2,7 +2,7 @@
 
 <div align="center">
 
-![Preview do Catálogo](./assets/preview.png)
+![Preview do Catálogo](./assets/Preview.png)
 
 <br>
 
